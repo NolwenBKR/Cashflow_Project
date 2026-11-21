@@ -1,0 +1,9 @@
+/home/ednabkr/Documents/Cashflow/build/Desktop-Debug/CMakeFiles/Cashflow.dir
+/home/ednabkr/Documents/Cashflow/build/Desktop-Debug/CMakeFiles/edit_cache.dir
+/home/ednabkr/Documents/Cashflow/build/Desktop-Debug/CMakeFiles/rebuild_cache.dir
+/home/ednabkr/Documents/Cashflow/build/Desktop-Debug/CMakeFiles/list_install_components.dir
+/home/ednabkr/Documents/Cashflow/build/Desktop-Debug/CMakeFiles/install.dir
+/home/ednabkr/Documents/Cashflow/build/Desktop-Debug/CMakeFiles/install/local.dir
+/home/ednabkr/Documents/Cashflow/build/Desktop-Debug/CMakeFiles/install/strip.dir
+/home/ednabkr/Documents/Cashflow/build/Desktop-Debug/CMakeFiles/Cashflow_autogen_timestamp_deps.dir
+/home/ednabkr/Documents/Cashflow/build/Desktop-Debug/CMakeFiles/Cashflow_autogen.dir
