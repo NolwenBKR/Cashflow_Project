@@ -2,6 +2,7 @@
 
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QStringList>
 
 DatabaseManager &DatabaseManager::instance()
 {
@@ -151,6 +152,7 @@ bool DatabaseManager::createTables()
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nom VARCHAR(255) NOT NULL,
                 solde INTEGER NOT NULL DEFAULT 0,
+                solde_initial INTEGER NOT NULL DEFAULT 0,
                 type_de_compte TEXT NOT NULL
             );
         )",
@@ -158,7 +160,7 @@ bool DatabaseManager::createTables()
             CREATE TABLE IF NOT EXISTS categories (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nom VARCHAR(255) NOT NULL,
-                couleur VARCHAR(7) NOT NULL
+                couleur VARCHAR(7)
             );
         )",
         R"(
