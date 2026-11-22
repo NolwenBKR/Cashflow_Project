@@ -36,7 +36,6 @@ public:
 private:
     // les m_ au debut des noms des attributs signifie member et ser a ne pas
     // les confondre avec les getteurs
-    int m_id = 0;
     QString m_nom;
     int m_solde = 0;
     int m_soldeInitial = 0;

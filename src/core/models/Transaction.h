@@ -57,7 +57,6 @@ public:
     static Type typeFromString(const QString &value, bool *ok = nullptr);
 
 private:
-    int m_id = 0;
     QDate m_date;
     QTime m_time;
     QString m_nom;

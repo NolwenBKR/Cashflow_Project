@@ -1,8 +1,7 @@
 #include "Category.h"
 
 Category::Category(int id, const QString &nom, const QString &couleur)
-    : BaseModel<Category>(id)
-    , m_nom(nom)
+    : m_nom(nom)
     , m_couleur(couleur)
 {
     setId(id);

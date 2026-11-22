@@ -14,6 +14,10 @@ SOURCES += \
     src/core/models/Compte.cpp \
     src/core/models/Transaction.cpp \
     src/database/DatabaseManager.cpp \
+    src/database/repositories/AccountRepository.cpp \
+    src/database/repositories/BudgetRepository.cpp \
+    src/database/repositories/CategoryRepository.cpp \
+    src/database/repositories/TransactionRepository.cpp \
     src/main.cpp \
     src/ui/views/MainWindow/mainwindow.cpp
 
@@ -28,6 +32,10 @@ HEADERS += \
     src/core/models/Compte.h \
     src/core/models/Transaction.h \
     src/database/DatabaseManager.h \
+    src/database/repositories/AccountRepository.h \
+    src/database/repositories/BudgetRepository.h \
+    src/database/repositories/CategoryRepository.h \
+    src/database/repositories/TransactionRepository.h \
     src/ui/views/MainWindow/mainwindow.h
 
 FORMS += \

@@ -9,8 +9,7 @@ Transaction::Transaction(int id,
                          int categoryId,
                          int accountId,
                          Type type)
-    : m_id(id)
-    , m_date(date)
+    : m_date(date)
     , m_time(time)
     , m_nom(nom)
     , m_description(description)
@@ -19,16 +18,7 @@ Transaction::Transaction(int id,
     , m_accountId(accountId)
     , m_type(type)
 {
-}
-
-int Transaction::id() const
-{
-    return m_id;
-}
-
-void Transaction::setId(int id)
-{
-    m_id = id;
+    setId(id);
 }
 
 QDate Transaction::date() const

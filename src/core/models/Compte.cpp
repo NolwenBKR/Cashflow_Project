@@ -5,8 +5,7 @@ Compte::Compte(int id,
                int solde,
                int soldeInitial,
                const QString &typeDeCompte)
-    : m_id(id)
-    , m_nom(nom)
+    : m_nom(nom)
     , m_solde(solde)
     , m_soldeInitial(soldeInitial)
     , m_typeDeCompte(typeDeCompte)
