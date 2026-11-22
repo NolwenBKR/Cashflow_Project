@@ -18,6 +18,11 @@ SOURCES += \
     src/ui/views/MainWindow/mainwindow.cpp
 
 HEADERS += \
+    src/core/interfaces/IAccountRepository.h \
+    src/core/interfaces/IBudgetRepository.h \
+    src/core/interfaces/ICategoryRepository.h \
+    src/core/interfaces/ITransactionRepository.h \
+    src/core/models/BaseModel.h \
     src/core/models/Budget.h \
     src/core/models/Category.h \
     src/core/models/Compte.h \

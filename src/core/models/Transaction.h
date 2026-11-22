@@ -1,11 +1,13 @@
 #ifndef TRANSACTION_H
 #define TRANSACTION_H
 
+#include "BaseModel.h"
+
 #include <QDate>
 #include <QString>
 #include <QTime>
 
-class Transaction
+class Transaction : public BaseModel<Transaction>
 {
 public:
     enum class Type {
@@ -23,9 +25,6 @@ public:
                 int categoryId,
                 int accountId,
                 Type type);
-
-    int id() const;
-    void setId(int id);
 
     QDate date() const;
     void setDate(const QDate &date);

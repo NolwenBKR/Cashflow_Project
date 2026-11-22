@@ -2,15 +2,13 @@
 #define CATEGORY_H
 
 #include <QString>
+#include "BaseModel.h"
 
-class Category
+class Category : public BaseModel<Category>
 {
 public:
     Category() = default;
     Category(int id, const QString &nom, const QString &couleur = QString());
-
-    int id() const;
-    void setId(int id);
 
     QString nom() const;
     void setNom(const QString &nom);
@@ -19,7 +17,6 @@ public:
     void setCouleur(const QString &couleur);
 
 private:
-    int m_id = 0;
     QString m_nom;
     QString m_couleur;
 };

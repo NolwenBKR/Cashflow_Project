@@ -6,23 +6,13 @@ Budget::Budget(int id,
                int categoryId,
                const QDate &dateDebut,
                const QDate &dateFin)
-    : m_id(id)
-    , m_plafond(plafond)
+    : m_plafond(plafond)
     , m_avancement(avancement)
     , m_categoryId(categoryId)
     , m_dateDebut(dateDebut)
     , m_dateFin(dateFin)
 {
-}
-
-int Budget::id() const
-{
-    return m_id;
-}
-
-void Budget::setId(int id)
-{
-    m_id = id;
+    setId(id);
 }
 
 int Budget::plafond() const

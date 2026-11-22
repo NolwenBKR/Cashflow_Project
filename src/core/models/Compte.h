@@ -1,9 +1,11 @@
 #ifndef COMPTE_H
 #define COMPTE_H
 
+#include "BaseModel.h"
+
 #include <QString>
 
-class Compte
+class Compte : public BaseModel<Compte>
 {
 public:
     Compte() = default;
@@ -15,9 +17,6 @@ public:
 
     // Pourquoi on utilise des getteurs et setteurs : par precauton, si on decide
     // de changer comment recuperer une valeur ou la mettre a jou, ce sera plus simple.
-
-    int id() const;
-    void setId(int id);
 
     QString nom() const;
     void setNom(const QString &nom);

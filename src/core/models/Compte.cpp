@@ -11,16 +11,7 @@ Compte::Compte(int id,
     , m_soldeInitial(soldeInitial)
     , m_typeDeCompte(typeDeCompte)
 {
-}
-
-int Compte::id() const
-{
-    return m_id;
-}
-
-void Compte::setId(int id)
-{
-    m_id = id;
+    setId(id);
 }
 
 QString Compte::nom() const

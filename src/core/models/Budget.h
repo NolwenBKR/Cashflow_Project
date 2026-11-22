@@ -2,8 +2,9 @@
 #define BUDGET_H
 
 #include <QDate>
+#include "BaseModel.h"
 
-class Budget
+class Budget : public BaseModel<Budget>
 {
 public:
     Budget() = default;
@@ -13,9 +14,6 @@ public:
            int categoryId,
            const QDate &dateDebut,
            const QDate &dateFin);
-
-    int id() const;
-    void setId(int id);
 
     int plafond() const;
     void setPlafond(int plafond);
@@ -33,7 +31,6 @@ public:
     void setDateFin(const QDate &dateFin);
 
 private:
-    int m_id = 0;
     int m_plafond = 0;
     int m_avancement = 0;
     int m_categoryId = 0;
