@@ -2,10 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "../../layouts/MainLayout.h"
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+//QT_BEGIN_NAMESPACE
+//namespace Ui { class MainWindow; }
+//QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
@@ -16,6 +17,7 @@ public:
     ~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
+    MainLayout *m_mainLayout = nullptr;
+//    Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
