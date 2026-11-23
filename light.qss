@@ -1,0 +1,13 @@
+QWidget { font-family: "Inter"; font-size: 14px; }
+QStackedWidget#stackedPages { background: #F4F6F6; }
+QFrame#sidebar { background: #0E1C1B; }
+QLabel#lblLogoIcon { background: #2DD4BF; color: #0E1C1B; border-radius: 8px; font-family: "Space Grotesk"; font-weight: 700; }
+QLabel#lblAppName { color: #FFFFFF; font-family: "Space Grotesk"; font-size: 18px; font-weight: 700; }
+QListWidget#navList { background: transparent; border: none; outline: none; color: #D5DEDD; }
+QListWidget#navList::item { padding: 8px 12px; border-radius: 8px; }
+QListWidget#navList::item:hover { background: #16302D; }
+QListWidget#navList::item:selected { background: #1B3A36; color: #FFFFFF; }
+QFrame#sidebarSeparator { background: #1E3330; border: none; max-height: 1px; }
+QPushButton#btnSettings { background: transparent; color: #D5DEDD; text-align: left; border: none; border-radius: 8px; padding: 10px 12px; }
+QPushButton#btnSettings:checked { background: #1B3A36; color: #FFFFFF; }
+QPushButton#btnTheme { background: transparent; color: #9FB0AE; text-align: left; border: none; padding: 8px 12px; }
