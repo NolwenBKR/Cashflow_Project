@@ -24,7 +24,7 @@ bool AccountRepository::create(Compte &compte, QString *errorMessage)
     QSqlQuery query(DatabaseManager::instance().database());
     query.prepare(R"(
         INSERT INTO accounts (nom, solde, solde_initial, type_de_compte)
-        VALUES (:nom, :solde, :initial_solde, :type_de_compte);
+        VALUES (:nom, :solde, :solde_initial, :type_de_compte);
     )");
     query.bindValue(":nom", compte.nom());
     query.bindValue(":solde", compte.solde());
