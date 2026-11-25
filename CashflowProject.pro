@@ -13,12 +13,17 @@ SOURCES += \
     src/core/models/Category.cpp \
     src/core/models/Compte.cpp \
     src/core/models/Transaction.cpp \
+    src/core/router/AppRouter.cpp \
+    src/core/router/Route.cpp \
     src/database/DatabaseManager.cpp \
     src/database/repositories/AccountRepository.cpp \
     src/database/repositories/BudgetRepository.cpp \
     src/database/repositories/CategoryRepository.cpp \
     src/database/repositories/TransactionRepository.cpp \
     src/main.cpp \
+    src/resources/routes/routes.cpp \
+    src/ui/layouts/MainLayout.cpp \
+    src/ui/layouts/Sidebar.cpp \
     src/ui/views/MainWindow/mainwindow.cpp
 
 HEADERS += \
@@ -31,11 +36,16 @@ HEADERS += \
     src/core/models/Category.h \
     src/core/models/Compte.h \
     src/core/models/Transaction.h \
+    src/core/router/AppRouter.h \
+    src/core/router/Route.h \
     src/database/DatabaseManager.h \
     src/database/repositories/AccountRepository.h \
     src/database/repositories/BudgetRepository.h \
     src/database/repositories/CategoryRepository.h \
     src/database/repositories/TransactionRepository.h \
+    src/resources/routes/routes.h \
+    src/ui/layouts/MainLayout.h \
+    src/ui/layouts/Sidebar.h \
     src/ui/views/MainWindow/mainwindow.h
 
 FORMS += \
