@@ -71,9 +71,9 @@ void Transaction::setMontant(unsigned int montant)
     m_montant = montant;
 }
 
-long long Transaction::montantDelta() const
+qint64 Transaction::montantDelta() const
 {
-    const long long valeur = static_cast<long long>(m_montant);
+    const qint64 valeur = m_montant;
     return (m_type == Type::Approvisionnement) ? valeur : -valeur;
 }
 
@@ -116,6 +116,15 @@ QString Transaction::typeToString(Type type)
     default:
         return QStringLiteral("depense");
     }
+}
+int Transaction::recurrenceId() const
+{
+    return m_recurrenceId;
+}
+
+void Transaction::setRecurrenceId(int recurrenceId)
+{
+    m_recurrenceId = recurrenceId;
 }
 
 Transaction::Type Transaction::typeFromString(const QString &value, bool *ok)

@@ -5,7 +5,6 @@
 
 #include <QList>
 #include <QString>
-#include <optional>
 
 class ICategoryRepository
 {
@@ -26,6 +25,9 @@ public:
 
     // retourne toutes les categories
     virtual QList<Category> findAll(QString *errorMessage = nullptr) const = 0;
+
+    // retourne les categories d'un type : "depense" ou "approvisionnement"
+    virtual QList<Category> findByType(const QString &type, QString *errorMessage = nullptr) const = 0;
 };
 
 #endif // ICATEGORYREPOSITORY_H

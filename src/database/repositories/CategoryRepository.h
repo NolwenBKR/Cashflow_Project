@@ -13,6 +13,7 @@ public:
     bool remove(int id, QString *errorMessage = nullptr) override;
     Category findById(int id, QString *errorMessage = nullptr) const override;
     QList<Category> findAll(QString *errorMessage = nullptr) const override;
+    QList<Category> findByType(const QString &type, QString *errorMessage = nullptr) const override;
 };
 
 #endif // CATEGORYREPOSITORY_H

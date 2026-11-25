@@ -22,9 +22,10 @@ bool CategoryRepository::create(Category &category, QString *errorMessage)
     }
 
     QSqlQuery query(DatabaseManager::instance().database());
-    query.prepare("INSERT INTO categories (nom, couleur) VALUES (:nom, :couleur);");
+    query.prepare("INSERT INTO categories (nom, couleur, type) VALUES (:nom, :couleur, :type);");
     query.bindValue(":nom", category.nom());
     query.bindValue(":couleur", category.couleur().isEmpty() ? QVariant() : QVariant(category.couleur()));
+    query.bindValue(":type", category.type());
 
     if (!query.exec()) {
         setError(errorMessage, query.lastError().text());
@@ -44,10 +45,11 @@ bool CategoryRepository::update(const Category &category, QString *errorMessage)
     }
 
     QSqlQuery query(DatabaseManager::instance().database());
-    query.prepare("UPDATE categories SET nom = :nom, couleur = :couleur WHERE id = :id;");
+    query.prepare("UPDATE categories SET nom = :nom, couleur = :couleur, type = :type WHERE id = :id;");
     query.bindValue(":id", category.id());
     query.bindValue(":nom", category.nom());
     query.bindValue(":couleur", category.couleur().isEmpty() ? QVariant() : QVariant(category.couleur()));
+    query.bindValue(":type", category.type());
 
     if (!query.exec()) {
         setError(errorMessage, query.lastError().text());
@@ -96,7 +98,7 @@ Category CategoryRepository::findById(int id, QString *errorMessage) const
     }
 
     QSqlQuery query(DatabaseManager::instance().database());
-    query.prepare("SELECT id, nom, couleur FROM categories WHERE id = :id;");
+    query.prepare("SELECT id, nom, couleur, type FROM categories.");
     query.bindValue(":id", id);
 
     if (!query.exec()) {
@@ -111,7 +113,8 @@ Category CategoryRepository::findById(int id, QString *errorMessage) const
 
     return Category(query.value(0).toInt(),
                     query.value(1).toString(),
-                    query.value(2).toString());
+                    query.value(2).toString(),
+                    query.value(3).toString())
 }
 
 QList<Category> CategoryRepository::findAll(QString *errorMessage) const
@@ -124,7 +127,7 @@ QList<Category> CategoryRepository::findAll(QString *errorMessage) const
     }
 
     QSqlQuery query(DatabaseManager::instance().database());
-    if (!query.exec("SELECT id, nom, couleur FROM categories ORDER BY nom ASC;")) {
+    if (!query.exec("SELECT id, nom, couleur, type FROM categories ORDER BY nom ASC;")) {
         setError(errorMessage, query.lastError().text());
         return categories;
     }
@@ -133,6 +136,35 @@ QList<Category> CategoryRepository::findAll(QString *errorMessage) const
         categories.append(Category(query.value(0).toInt(),
                                    query.value(1).toString(),
                                    query.value(2).toString()));
+    }
+
+    setError(errorMessage, QString());
+    return categories;
+}
+
+QList<Category> CategoryRepository::findByType(const QString &type, QString *errorMessage) const
+{
+    QList<Category> categories;
+
+    if (!DatabaseManager::instance().isOpen()) {
+        setError(errorMessage, "La base de donnees n'est pas ouverte.");
+        return categories;
+    }
+
+    QSqlQuery query(DatabaseManager::instance().database());
+    query.prepare("SELECT id, nom, couleur, type FROM categories WHERE type = :type ORDER BY nom ASC;");
+    query.bindValue(":type", type);
+
+    if (!query.exec()) {
+        setError(errorMessage, query.lastError().text());
+        return categories;
+    }
+
+    while (query.next()) {
+        categories.append(Category(query.value(0).toInt(),
+                                   query.value(1).toString(),
+                                   query.value(2).toString(),
+                                   query.value(3).toString()));
     }
 
     setError(errorMessage, QString());

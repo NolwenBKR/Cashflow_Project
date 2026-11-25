@@ -12,6 +12,32 @@ void setError(QString *errorMessage, const QString &message)
         *errorMessage = message;
     }
 }
+
+// Lit les comptes avec leur solde calcule : solde initial + revenus - depenses.
+// LEFT JOIN garde les comptes sans transaction, COALESCE remplace une somme vide par 0.
+const QString SELECT_COMPTES = R"(
+    SELECT a.id, a.nom, a.type_de_compte, a.solde_initial, a.couleur, a.ordre,
+           a.solde_initial + COALESCE(SUM(CASE WHEN t.type = 'approvisionnement'
+                                               THEN t.montant ELSE -t.montant END), 0) AS solde
+    FROM accounts a
+    LEFT JOIN transactions t ON t.account_id = a.id
+)";
+
+Compte hydrateCompte(const QSqlQuery &query)
+{
+    return Compte(query.value(0).toInt(),
+                  query.value(1).toString(),
+                  query.value(2).toString(),
+                  query.value(3).toLongLong(),
+                  query.value(4).toString(),
+                  query.value(5).toInt(),
+                  query.value(6).toLongLong());
+}
+
+QVariant couleurOuNull(const QString &couleur)
+{
+    return couleur.isEmpty() ? QVariant() : QVariant(couleur);
+}
 } // namespace
 
 bool AccountRepository::create(Compte &compte, QString *errorMessage)
@@ -21,15 +47,24 @@ bool AccountRepository::create(Compte &compte, QString *errorMessage)
         return false;
     }
 
+    // Le nouveau compte se place apres tous les autres
+    QSqlQuery ordreQuery(DatabaseManager::instance().database());
+    if (!ordreQuery.exec("SELECT COALESCE(MAX(ordre), 0) + 1 FROM accounts;") || !ordreQuery.next()) {
+        setError(errorMessage, ordreQuery.lastError().text());
+        return false;
+    }
+    const int ordre = ordreQuery.value(0).toInt();
+
     QSqlQuery query(DatabaseManager::instance().database());
     query.prepare(R"(
-        INSERT INTO accounts (nom, solde, solde_initial, type_de_compte)
-        VALUES (:nom, :solde, :solde_initial, :type_de_compte);
+        INSERT INTO accounts (nom, type_de_compte, solde_initial, couleur, ordre)
+        VALUES (:nom, :type_de_compte, :solde_initial, :couleur, :ordre);
     )");
     query.bindValue(":nom", compte.nom());
-    query.bindValue(":solde", compte.solde());
-    query.bindValue(":solde_initial", compte.soldeInitial());
     query.bindValue(":type_de_compte", compte.typeDeCompte());
+    query.bindValue(":solde_initial", compte.soldeInitial());
+    query.bindValue(":couleur", couleurOuNull(compte.couleur()));
+    query.bindValue(":ordre", ordre);
 
     if (!query.exec()) {
         setError(errorMessage, query.lastError().text());
@@ -37,6 +72,7 @@ bool AccountRepository::create(Compte &compte, QString *errorMessage)
     }
 
     compte.setId(query.lastInsertId().toInt());
+    compte.setOrdre(ordre);
     setError(errorMessage, QString());
     return true;
 }
@@ -48,20 +84,21 @@ bool AccountRepository::update(const Compte &compte, QString *errorMessage)
         return false;
     }
 
+    // L'ordre n'est pas modifie ici : utiliser updateOrder()
     QSqlQuery query(DatabaseManager::instance().database());
     query.prepare(R"(
         UPDATE accounts
         SET nom = :nom,
-            solde = :solde,
+            type_de_compte = :type_de_compte,
             solde_initial = :solde_initial,
-            type_de_compte = :type_de_compte
+            couleur = :couleur
         WHERE id = :id;
     )");
     query.bindValue(":id", compte.id());
     query.bindValue(":nom", compte.nom());
-    query.bindValue(":solde", compte.solde());
-    query.bindValue(":solde_initial", compte.soldeInitial());
     query.bindValue(":type_de_compte", compte.typeDeCompte());
+    query.bindValue(":solde_initial", compte.soldeInitial());
+    query.bindValue(":couleur", couleurOuNull(compte.couleur()));
 
     if (!query.exec()) {
         setError(errorMessage, query.lastError().text());
@@ -110,11 +147,7 @@ Compte AccountRepository::findById(int id, QString *errorMessage) const
     }
 
     QSqlQuery query(DatabaseManager::instance().database());
-    query.prepare(R"(
-        SELECT id, nom, solde, solde_initial, type_de_compte
-        FROM accounts
-        WHERE id = :id;
-    )");
+    query.prepare(SELECT_COMPTES + " WHERE a.id = :id GROUP BY a.id;");
     query.bindValue(":id", id);
 
     if (!query.exec()) {
@@ -127,11 +160,7 @@ Compte AccountRepository::findById(int id, QString *errorMessage) const
         return Compte::null();
     }
 
-    return Compte(query.value(0).toInt(),
-                  query.value(1).toString(),
-                  query.value(2).toInt(),
-                  query.value(3).toInt(),
-                  query.value(4).toString());
+    return hydrateCompte(query);
 }
 
 QList<Compte> AccountRepository::findAll(QString *errorMessage) const
@@ -144,42 +173,48 @@ QList<Compte> AccountRepository::findAll(QString *errorMessage) const
     }
 
     QSqlQuery query(DatabaseManager::instance().database());
-    if (!query.exec("SELECT id, nom, solde, solde_initial, type_de_compte FROM accounts ORDER BY id ASC;")) {
+    if (!query.exec(SELECT_COMPTES + " GROUP BY a.id ORDER BY a.ordre ASC, a.id ASC;")) {
         setError(errorMessage, query.lastError().text());
         return comptes;
     }
 
     while (query.next()) {
-        comptes.append(Compte(query.value(0).toInt(),
-                              query.value(1).toString(),
-                              query.value(2).toInt(),
-                              query.value(3).toInt(),
-                              query.value(4).toString()));
+        comptes.append(hydrateCompte(query));
     }
 
     setError(errorMessage, QString());
     return comptes;
 }
 
-bool AccountRepository::updateBalance(int accountId, int newBalance, QString *errorMessage)
+bool AccountRepository::updateOrder(const QList<int> &idsDansLOrdre, QString *errorMessage)
 {
-    if (!DatabaseManager::instance().isOpen()) {
+    DatabaseManager &db = DatabaseManager::instance();
+    if (!db.isOpen()) {
         setError(errorMessage, "La base de donnees n'est pas ouverte.");
         return false;
     }
 
-    QSqlQuery query(DatabaseManager::instance().database());
-    query.prepare("UPDATE accounts SET solde = :solde WHERE id = :id;");
-    query.bindValue(":id", accountId);
-    query.bindValue(":solde", newBalance);
-
-    if (!query.exec()) {
-        setError(errorMessage, query.lastError().text());
+    // Tout l'ordre change, ou rien : on travaille dans une transaction SQL
+    if (!db.beginTransaction()) {
+        setError(errorMessage, db.lastError());
         return false;
     }
 
-    if (query.numRowsAffected() <= 0) {
-        setError(errorMessage, "Aucun compte trouve avec cet identifiant.");
+    QSqlQuery query(db.database());
+    query.prepare("UPDATE accounts SET ordre = :ordre WHERE id = :id;");
+    for (int i = 0; i < idsDansLOrdre.size(); ++i) {
+        query.bindValue(":ordre", i + 1);
+        query.bindValue(":id", idsDansLOrdre.at(i));
+        if (!query.exec()) {
+            setError(errorMessage, query.lastError().text());
+            db.rollbackTransaction();
+            return false;
+        }
+    }
+
+    if (!db.commitTransaction()) {
+        setError(errorMessage, db.lastError());
+        db.rollbackTransaction();
         return false;
     }
 

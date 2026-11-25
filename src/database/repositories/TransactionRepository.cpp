@@ -18,7 +18,7 @@ Transaction hydrateTransaction(const QSqlQuery &query)
     const QDate date = QDate::fromString(query.value(1).toString(), Qt::ISODate);
     const QString timeStr = query.value(2).toString();
     const QTime time = timeStr.isEmpty() ? QTime() : QTime::fromString(timeStr, "HH:mm");
-    const unsigned int montant = static_cast<unsigned int>(qMax(0, query.value(5).toInt()));
+    const qint64 montant = qMax<qint64>(0, query.value(5).toLongLong());
     const Transaction::Type type = Transaction::typeFromString(query.value(8).toString());
 
     return Transaction(query.value(0).toInt(),
@@ -29,7 +29,8 @@ Transaction hydrateTransaction(const QSqlQuery &query)
                        montant,
                        query.value(6).toInt(),
                        query.value(7).toInt(),
-                       type);
+                       type,
+                       query.value(9).toInt());
 }
 } // namespace
 
@@ -42,17 +43,17 @@ bool TransactionRepository::create(Transaction &transaction, QString *errorMessa
 
     QSqlQuery query(DatabaseManager::instance().database());
     query.prepare(R"(
-        INSERT INTO transactions (date, time, nom, description, montant, category_id, account_id, type)
-        VALUES (:date, :time, :nom, :description, :montant, :category_id, :account_id, :type);
+        INSERT INTO transactions (date, time, nom, description, montant, category_id, account_id, type, recurrence_id)
+        VALUES (:date, :time, :nom, :description, :montant, :category_id, :account_id, :type, :recurrence_id);
     )");
     query.bindValue(":date", transaction.date().toString(Qt::ISODate));
     query.bindValue(":time", transaction.time().isValid() ? QVariant(transaction.time().toString("HH:mm")) : QVariant());
     query.bindValue(":nom", transaction.nom());
     query.bindValue(":description", transaction.description().isEmpty() ? QVariant() : QVariant(transaction.description()));
-    query.bindValue(":montant", static_cast<int>(transaction.montant()));
+    query.bindValue(":montant", transaction.montant());
     query.bindValue(":category_id", transaction.categoryId());
     query.bindValue(":account_id", transaction.accountId());
-    query.bindValue(":type", Transaction::typeToString(transaction.type()));
+        query.bindValue(":recurrence_id", transaction.recurrenceId() > 0 ? QVariant(transaction.recurrenceId()) : QVariant());
 
     if (!query.exec()) {
         setError(errorMessage, query.lastError().text());
@@ -81,7 +82,8 @@ bool TransactionRepository::update(const Transaction &transaction, QString *erro
             montant = :montant,
             category_id = :category_id,
             account_id = :account_id,
-            type = :type
+            type = :type,
+            recurrence_id = :recurrence_id
         WHERE id = :id;
     )");
     query.bindValue(":id", transaction.id());
@@ -89,10 +91,10 @@ bool TransactionRepository::update(const Transaction &transaction, QString *erro
     query.bindValue(":time", transaction.time().isValid() ? QVariant(transaction.time().toString("HH:mm")) : QVariant());
     query.bindValue(":nom", transaction.nom());
     query.bindValue(":description", transaction.description().isEmpty() ? QVariant() : QVariant(transaction.description()));
-    query.bindValue(":montant", static_cast<int>(transaction.montant()));
+    query.bindValue(":montant", transaction.montant());
     query.bindValue(":category_id", transaction.categoryId());
     query.bindValue(":account_id", transaction.accountId());
-    query.bindValue(":type", Transaction::typeToString(transaction.type()));
+    query.bindValue(":recurrence_id", transaction.recurrenceId() > 0 ? QVariant(transaction.recurrenceId()) : QVariant());
 
     if (!query.exec()) {
         setError(errorMessage, query.lastError().text());
@@ -142,7 +144,7 @@ Transaction TransactionRepository::findById(int id, QString *errorMessage) const
 
     QSqlQuery query(DatabaseManager::instance().database());
     query.prepare(R"(
-        SELECT id, date, time, nom, description, montant, category_id, account_id, type
+        SELECT id, date, time, nom, description, montant, category_id, account_id, type, recurrence_id
         FROM transactions
         WHERE id = :id;
     )");
@@ -172,7 +174,7 @@ QList<Transaction> TransactionRepository::findAll(QString *errorMessage) const
 
     QSqlQuery query(DatabaseManager::instance().database());
     if (!query.exec(R"(
-        SELECT id, date, time, nom, description, montant, category_id, account_id, type
+        SELECT id, date, time, nom, description, montant, category_id, account_id, type,recurrence_id
         FROM transactions
         ORDER BY date DESC, id DESC;
     )")) {
@@ -199,7 +201,7 @@ QList<Transaction> TransactionRepository::findByAccountId(int accountId, QString
 
     QSqlQuery query(DatabaseManager::instance().database());
     query.prepare(R"(
-        SELECT id, date, time, nom, description, montant, category_id, account_id, type
+        SELECT id, date, time, nom, description, montant, category_id, account_id, type, recurrence_id
         FROM transactions
         WHERE account_id = :account_id
         ORDER BY date DESC, id DESC;
@@ -230,7 +232,7 @@ QList<Transaction> TransactionRepository::findByCategoryId(int categoryId, QStri
 
     QSqlQuery query(DatabaseManager::instance().database());
     query.prepare(R"(
-        SELECT id, date, time, nom, description, montant, category_id, account_id, type
+        SELECT id, date, time, nom, description, montant, category_id, account_id, type,recurrence_id
         FROM transactions
         WHERE category_id = :category_id
         ORDER BY date DESC, id DESC;
@@ -263,7 +265,7 @@ QList<Transaction> TransactionRepository::findByDateRange(const QDate &startDate
 
     QSqlQuery query(DatabaseManager::instance().database());
     query.prepare(R"(
-        SELECT id, date, time, nom, description, montant, category_id, account_id, type
+        SELECT id, date, time, nom, description, montant, category_id, account_id, type, recurrence_id
         FROM transactions
         WHERE date BETWEEN :start_date AND :end_date
         ORDER BY date DESC, id DESC;

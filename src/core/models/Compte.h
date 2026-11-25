@@ -4,6 +4,7 @@
 #include "BaseModel.h"
 
 #include <QString>
+#include <QtGlobal>
 
 class Compte : public BaseModel<Compte>
 {
@@ -11,35 +12,38 @@ public:
     Compte() = default;
     Compte(int id,
            const QString &nom,
-           int solde,
-           int initialSolde,
-           const QString &typeDeCompte);
-
-    // Pourquoi on utilise des getteurs et setteurs : par precauton, si on decide
-    // de changer comment recuperer une valeur ou la mettre a jou, ce sera plus simple.
+           const QString &typeDeCompte,
+           qint64 soldeInitial,
+           const QString &couleur = QString(),
+           int ordre = 0,
+           qint64 solde = 0);
 
     QString nom() const;
     void setNom(const QString &nom);
 
-    int solde() const;
-    void setSolde(int solde);
-
-    int soldeInitial() const;
-    void setSoldeInitial(int initialSolde);
-
     QString typeDeCompte() const;
     void setTypeDeCompte(const QString &typeDeCompte);
 
-    // ajuste le solde courant d'un delta (positif ou negatif)
-    void modifierSolde(int delta);
+    qint64 soldeInitial() const;
+    void setSoldeInitial(qint64 soldeInitial);
+
+    QString couleur() const;
+    void setCouleur(const QString &couleur);
+
+    int ordre() const;
+    void setOrdre(int ordre);
+
+    // Solde actuel = solde initial + revenus - depenses.
+    // Calcule par la base (AccountRepository), donc en lecture seule.
+    qint64 solde() const;
 
 private:
-    // les m_ au debut des noms des attributs signifie member et ser a ne pas
-    // les confondre avec les getteurs
     QString m_nom;
-    int m_solde = 0;
-    int m_soldeInitial = 0;
     QString m_typeDeCompte;
+    qint64 m_soldeInitial = 0;
+    QString m_couleur;
+    int m_ordre = 0;
+    qint64 m_solde = 0;
 };
 
 #endif // COMPTE_H
