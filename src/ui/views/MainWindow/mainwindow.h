@@ -2,11 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "../../layouts/MainLayout.h"
+#include <QListWidget>
+#include "../../../core/router/Route.h"
 
-//QT_BEGIN_NAMESPACE
-//namespace Ui { class MainWindow; }
-//QT_END_NAMESPACE
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
@@ -16,8 +18,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void setRoutes(const QList<Route> &routes);
+    void setActiveRoute(const QString &routeName);
+
+public slots:
+    void displayPage(const QString &routeName, QWidget *page);
+private slots:
+    void onItemClicked(QListWidgetItem *item);
+
 private:
-    MainLayout *m_mainLayout = nullptr;
-//    Ui::MainWindow *ui;
+    Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

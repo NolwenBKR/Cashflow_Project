@@ -4,6 +4,6 @@
         <file>fonts/Inter_24pt-SemiBold.ttf</file>
         <file>fonts/SpaceGrotesk-Bold.ttf</file>
         <file>fonts/SpaceGrotesk-SemiBold.ttf</file>
-        <file>light.qss</file>
+        <file>styles/light.qss</file>
     </qresource>
 </RCC>

@@ -6,16 +6,236 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1100</width>
+    <height>800</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>MainWindow</string>
+  <property name="minimumSize">
+   <size>
+    <width>1100</width>
+    <height>700</height>
+   </size>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar"/>
-  <widget class="QStatusBar" name="statusbar"/>
+  <property name="maximumSize">
+   <size>
+    <width>1100</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Ca$hfl00d</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QFrame" name="sidebar">
+      <property name="minimumSize">
+       <size>
+        <width>220</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>220</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>8</number>
+       </property>
+       <property name="leftMargin">
+        <number>12</number>
+       </property>
+       <property name="topMargin">
+        <number>16</number>
+       </property>
+       <property name="rightMargin">
+        <number>12</number>
+       </property>
+       <property name="bottomMargin">
+        <number>16</number>
+       </property>
+       <item>
+        <widget class="QWidget" name="logoRow" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="lblLogoIcon">
+            <property name="minimumSize">
+             <size>
+              <width>36</width>
+              <height>36</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>36</width>
+              <height>36</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>C$</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblAppName">
+            <property name="text">
+             <string>Ca$hfl00d</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>78</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="navList">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="showDropIndicator" stdset="0">
+          <bool>false</bool>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="spacing">
+          <number>4</number>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>Tableau de bord</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Transactions</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Comptes</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Catégories &amp; étiquettes</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Budgets</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Récurrences</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Rapports</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Bourse</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Import/Export</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnSettings">
+         <property name="text">
+          <string>Paramètres</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnTheme">
+         <property name="text">
+          <string>Thème : Clair</string>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="sidebarSeparator">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QStackedWidget" name="stackedPages">
+      <widget class="QWidget" name="pageTransactions"/>
+      <widget class="QWidget" name="pagecategories"/>
+      <widget class="QWidget" name="pageBudgets"/>
+      <widget class="QWidget" name="pageRecurring"/>
+      <widget class="QWidget" name="pageReports"/>
+      <widget class="QWidget" name="pageStocks"/>
+      <widget class="QWidget" name="pageImportsExpot"/>
+      <widget class="QWidget" name="pageStteings"/>
+      <widget class="QWidget" name="pageDashboard"/>
+      <widget class="QWidget" name="pageAccounts"/>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <resources/>
  <connections/>

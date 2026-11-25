@@ -22,8 +22,6 @@ SOURCES += \
     src/database/repositories/TransactionRepository.cpp \
     src/main.cpp \
     src/resources/routes/routes.cpp \
-    src/ui/layouts/MainLayout.cpp \
-    src/ui/layouts/Sidebar.cpp \
     src/ui/views/MainWindow/mainwindow.cpp
 
 HEADERS += \
@@ -44,8 +42,6 @@ HEADERS += \
     src/database/repositories/CategoryRepository.h \
     src/database/repositories/TransactionRepository.h \
     src/resources/routes/routes.h \
-    src/ui/layouts/MainLayout.h \
-    src/ui/layouts/Sidebar.h \
     src/ui/views/MainWindow/mainwindow.h
 
 FORMS += \
@@ -55,3 +51,11 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+
+RESOURCES += \
+    src/resources/ressources.qrc
+
+DISTFILES += \
+    src/resources/styles/light.qss
+
