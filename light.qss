@@ -11,3 +11,45 @@ QFrame#sidebarSeparator { background: #1E3330; border: none; max-height: 1px; }
 QPushButton#btnSettings { background: transparent; color: #D5DEDD; text-align: left; border: none; border-radius: 8px; padding: 10px 12px; }
 QPushButton#btnSettings:checked { background: #1B3A36; color: #FFFFFF; }
 QPushButton#btnTheme { background: transparent; color: #9FB0AE; text-align: left; border: none; padding: 8px 12px; }
+QFrame#accCardFrame { background: #FFFFFF; border: 1px solid #E2E8E7; border-radius: 12px; }
+QFrame#accCardFrame[selected="true"] { border: 2px solid #0F766E; }
+QLabel#lblAccIcon { color: #FFFFFF; font-family: "Space Grotesk"; font-size: 16px; font-weight: 700; border-radius: 8px; }
+QLabel#lblAccName { font-family: "Space Grotesk"; font-size: 16px; font-weight: 600; color: #13201F; }
+QLabel#lblAccMeta { color: #5B6B6A; font-size: 13px; }
+QLabel#lblAccBalance { font-family: "Space Grotesk"; font-size: 17px; font-weight: 700; color: #13201F; }
+QToolButton#btnAccEdit, QToolButton#btnAccDelete { border: none; background: transparent; color: #5B6B6A; font-size: 16px; padding: 6px; border-radius: 6px; }
+QToolButton#btnAccEdit:hover, QToolButton#btnAccDelete:hover { background: #F4F6F6; }
+QToolButton#btnAccDelete:hover { color: #B42318; }
+QLabel#lblTitle { font-family: "Space Grotesk"; font-size: 26px; font-weight: 700; color: #13201F; }
+QLabel#lblSubtitle { color: #5B6B6A; font-size: 14px; }
+QPushButton#btnNewAccount { background: #0F766E; color: #FFFFFF; border: none; border-radius: 8px; padding: 10px 18px; font-weight: 600; }
+QPushButton#btnNewAccount:hover { background: #0B5F59; }
+
+QFrame#totalCard, QFrame#detailCard { background: #FFFFFF; border: 1px solid #E2E8E7; border-radius: 12px; }
+QLabel#lblTotalCaption, QLabel#lblInCaption, QLabel#lblOutCaption, QLabel#lblLastOps { color: #5B6B6A; font-size: 13px; }
+QLabel#lblTotalValue { font-family: "Space Grotesk"; font-size: 30px; font-weight: 700; color: #13201F; }
+
+QLabel#lblDetailTitle { font-family: "Space Grotesk"; font-size: 18px; font-weight: 600; color: #13201F; }
+QLabel#lblDetailType { color: #5B6B6A; }
+QLabel#lblDetailBalance { font-family: "Space Grotesk"; font-size: 24px; font-weight: 700; color: #13201F; }
+QFrame#inBox, QFrame#outBox { background: #F4F6F6; border-radius: 8px; }
+QLabel[tone="income"] { color: #0F766E; font-weight: 600; }
+QLabel[tone="expense"] { color: #B42318; font-weight: 600; }
+QLabel#lblAccountsEmpty, QLabel#lblAccountsNoOps { color: #5B6B6A; }
+
+QPushButton#btnSeeTransactions { background: #FFFFFF; color: #0F766E; border: 1px solid #0F766E; border-radius: 8px; padding: 10px; font-weight: 600; }
+QPushButton#btnSeeTransactions:hover { background: #F0FAF9; }
+QPushButton#btnSeeTransactions:disabled { color: #9AA8A7; border-color: #E2E8E7; }
+QDialog#accountDialog { background: #FFFFFF; }
+QDialog#accountDialog QLabel { color: #13201F; font-size: 14px; }
+QLabel#lblDialogTitle { font-family: "Space Grotesk"; font-size: 20px; font-weight: 700; }
+QLabel#lblDialogError { color: #B42318; font-size: 13px; }
+QDialog#accountDialog QLineEdit, QDialog#accountDialog QComboBox, QDialog#accountDialog QSpinBox {
+    background: #FFFFFF; color: #13201F; border: 1px solid #E2E8E7; border-radius: 8px; padding: 8px 10px;
+}
+QDialog#accountDialog QLineEdit:focus, QDialog#accountDialog QComboBox:focus, QDialog#accountDialog QSpinBox:focus { border: 1px solid #0F766E; }
+QDialog#accountDialog QSpinBox:disabled { background: #F4F6F6; color: #5B6B6A; }
+QPushButton#btnDialogSave { background: #0F766E; color: #FFFFFF; border: none; border-radius: 8px; padding: 10px 18px; font-weight: 600; }
+QPushButton#btnDialogSave:hover { background: #0B5F59; }
+QPushButton#btnDialogCancel { background: #FFFFFF; color: #13201F; border: 1px solid #E2E8E7; border-radius: 8px; padding: 10px 18px; }
+QPushButton#btnDialogCancel:hover { background: #F4F6F6; }

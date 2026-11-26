@@ -28,3 +28,9 @@ RESOURCES += \
 
 DISTFILES += \
     light.qss
+
+# Page Comptes
+INCLUDEPATH += $$PWD/ui/accounts
+SOURCES += ui/accounts/accountcard.cpp ui/accounts/accountspage.cpp ui/accounts/accountdialog.cpp
+HEADERS += ui/accounts/accountcard.h ui/accounts/accoutspage.h/ ui/accounts/accountdialog.h ui/accounts/AccountData.h ui/accounts/money.h
+FORMS += ui/accounts/accountcard.ui ui/accounts/accountspage.ui
