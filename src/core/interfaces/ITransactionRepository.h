@@ -6,7 +6,7 @@
 #include <QDate>
 #include <QList>
 #include <QString>
-#include <optional>
+
 
 class ITransactionRepository
 {

@@ -6,6 +6,7 @@
 #include <QDate>
 #include <QString>
 #include <QTime>
+#include <QtGlobal>
 
 class Transaction : public BaseModel<Transaction>
 {
@@ -21,10 +22,11 @@ public:
                 const QTime &time,
                 const QString &nom,
                 const QString &description,
-                unsigned int montant,
+                qint64 montant,
                 int categoryId,
                 int accountId,
-                Type type);
+                Type type,
+                int recurrenceId = 0);
 
     QDate date() const;
     void setDate(const QDate &date);
@@ -38,10 +40,10 @@ public:
     QString description() const;
     void setDescription(const QString &description);
 
-    unsigned int montant() const;
-    void setMontant(unsigned int montant);
+    qint64 montant() const;
+    void setMontant(qint64 montant);
     // retourne +montant pour un approvisionnement et -montant pour une depense
-    long long montantDelta() const;
+    qint64 montantDelta() const;
 
     int categoryId() const;
     void setCategoryId(int categoryId);
@@ -52,6 +54,10 @@ public:
     Type type() const;
     void setType(Type type);
 
+    // Recurrence qui a cree cette transaction (0 si aucune)
+    int recurrenceId() const;
+    void setRecurrenceId(int recurrenceId);
+
     // helpers pratiques pour la conversion avec les valeurs SQL
     static QString typeToString(Type type);
     static Type typeFromString(const QString &value, bool *ok = nullptr);
@@ -61,10 +67,11 @@ private:
     QTime m_time;
     QString m_nom;
     QString m_description;
-    unsigned int m_montant = 0;
+    qint64 m_montant = 0;
     int m_categoryId = 0;
     int m_accountId = 0;
     Type m_type = Type::Depense;
+    int m_recurrenceId = 0;
 };
 
 #endif // TRANSACTION_H

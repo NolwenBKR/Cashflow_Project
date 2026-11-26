@@ -14,7 +14,13 @@ public:
     Budget findById(int id, QString *errorMessage = nullptr) const override;
     QList<Budget> findAll(QString *errorMessage = nullptr) const override;
     QList<Budget> findByCategoryId(int categoryId, QString *errorMessage = nullptr) const override;
-    bool updateProgress(int budgetId, int avancement, QString *errorMessage = nullptr) override;
+    qint64 montantDepense(int budgetId, QString *errorMessage = nullptr) const override;
+
+private:
+    // remplace les categories d'un budget (a appeler dans une transaction SQL)
+    bool ecrireCategories(int budgetId, const QList<int> &categoryIds, QString *errorMessage);
+    // complete chaque budget avec la liste de ses categories
+    bool chargerCategories(QList<Budget> &budgets, QString *errorMessage) const;
 };
 
 #endif // BUDGETREPOSITORY_H

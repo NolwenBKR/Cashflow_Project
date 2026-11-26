@@ -13,7 +13,7 @@ public:
     bool remove(int id, QString *errorMessage = nullptr) override;
     Compte findById(int id, QString *errorMessage = nullptr) const override;
     QList<Compte> findAll(QString *errorMessage = nullptr) const override;
-    bool updateBalance(int accountId, int newBalance, QString *errorMessage = nullptr) override;
+    bool updateOrder(const QList<int> &idsDansLOrdre, QString *errorMessage = nullptr) override;
 };
 
 #endif // ACCOUNTREPOSITORY_H
