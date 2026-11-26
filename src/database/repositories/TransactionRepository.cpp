@@ -53,7 +53,8 @@ bool TransactionRepository::create(Transaction &transaction, QString *errorMessa
     query.bindValue(":montant", transaction.montant());
     query.bindValue(":category_id", transaction.categoryId());
     query.bindValue(":account_id", transaction.accountId());
-        query.bindValue(":recurrence_id", transaction.recurrenceId() > 0 ? QVariant(transaction.recurrenceId()) : QVariant());
+    query.bindValue(":type", Transaction::typeToString(transaction.type()));
+    query.bindValue(":recurrence_id", transaction.recurrenceId() > 0 ? QVariant(transaction.recurrenceId()) : QVariant());
 
     if (!query.exec()) {
         setError(errorMessage, query.lastError().text());
@@ -94,6 +95,7 @@ bool TransactionRepository::update(const Transaction &transaction, QString *erro
     query.bindValue(":montant", transaction.montant());
     query.bindValue(":category_id", transaction.categoryId());
     query.bindValue(":account_id", transaction.accountId());
+    query.bindValue(":type", Transaction::typeToString(transaction.type()));
     query.bindValue(":recurrence_id", transaction.recurrenceId() > 0 ? QVariant(transaction.recurrenceId()) : QVariant());
 
     if (!query.exec()) {

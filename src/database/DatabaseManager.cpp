@@ -162,8 +162,10 @@ bool DatabaseManager::createTables()
             CREATE TABLE IF NOT EXISTS accounts (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nom TEXT NOT NULL,
+                type_de_compte TEXT NOT NULL,
                 solde_initial INTEGER NOT NULL DEFAULT 0,
-                couleur TEXT
+                couleur TEXT,
+                ordre INTEGER NOT NULL DEFAULT 0
             );
         )",
         R"(
