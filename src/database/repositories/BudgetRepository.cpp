@@ -29,7 +29,7 @@ Budget hydrateBudget(const QSqlQuery &query)
                   QDate::fromString(query.value(5).toString(), Qt::ISODate),
                   query.value(6).toInt());
 }
-} // namespace
+}
 
 bool BudgetRepository::ecrireCategories(int budgetId, const QList<int> &categoryIds, QString *errorMessage)
 {

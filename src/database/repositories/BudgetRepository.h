@@ -21,5 +21,6 @@ private:
     bool ecrireCategories(int budgetId, const QList<int> &categoryIds, QString *errorMessage);
     // complete chaque budget avec la liste de ses categories
     bool chargerCategories(QList<Budget> &budgets, QString *errorMessage) const;
+};
 
 #endif // BUDGETREPOSITORY_H

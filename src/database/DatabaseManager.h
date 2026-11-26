@@ -45,7 +45,7 @@ public:
      * @brief Reinitialise le schema de la base de donnees
      * @return true si le reset réussit.
      */
-    bool resetAllData(bool gargerCategories = true);
+    bool resetAllData(bool garderCategories = true);
 
     /**
      * @brief Démarre une transaction SQL.
@@ -92,7 +92,7 @@ private:
      * @return true si toutes les requêtes de création réussissent, false sinon.
      */
     bool createTables();
-    bool insererDonneeParDefaut();
+    bool insererDonneesParDefaut();
 
     // Exécute une requête SQL brute interne et met à jour lastError en cas d'échec.
     bool executeQuery(const QString &sql);

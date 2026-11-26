@@ -22,10 +22,11 @@ public:
                 const QTime &time,
                 const QString &nom,
                 const QString &description,
-                unsigned int montant,
+                qint64 montant,
                 int categoryId,
                 int accountId,
-                Type type);
+                Type type,
+                int recurrenceId = 0);
 
     QDate date() const;
     void setDate(const QDate &date);
@@ -50,10 +51,10 @@ public:
     int accountId() const;
     void setAccountId(int accountId);
 
-    Type type()const;
+    Type type() const;
     void setType(Type type);
 
-
+    // Recurrence qui a cree cette transaction (0 si aucune)
     int recurrenceId() const;
     void setRecurrenceId(int recurrenceId);
 

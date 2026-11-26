@@ -43,7 +43,7 @@ bool DatabaseManager::initDatabase(const QString &dbPath)
     if (!createTables()) {
         return false;
     }
-    if(!insererDonneeParDefaut()){
+    if(!insererDonneesParDefaut()){
         return false;
     }
     m_lastError.clear();
@@ -95,58 +95,6 @@ bool DatabaseManager::resetAllData(bool garderCategories)
 
     // Si les categories ont ete effacees, les categories par defaut reviennent
     return insererDonneesParDefaut();
-}
-
-Henry GOSSOU
-    1:19 PM (2 minutes ago)
-    to me
-
-    bool DatabaseManager::insererDonneesParDefaut()
-{
-    // 1. Si des categories existent deja, on ne fait rien (sinon doublons a chaque lancement)
-    QSqlQuery compte(m_db);
-    if (!compte.exec("SELECT COUNT(*) FROM categories;") || !compte.next()) {
-        m_lastError = compte.lastError().text();
-        return false;
-    }
-    if (compte.value(0).toInt() > 0) {
-        return true;
-    }
-
-    // 2. Sinon, on insere les categories par defaut : { nom, type, couleur }
-    struct CategorieParDefaut { const char *nom; const char *type; const char *couleur; };
-    const QList<CategorieParDefaut> categories = {
-        { "Alimentation",  "depense",           "#0F766E" },
-        { "Logement",      "depense",           "#1D4ED8" },
-        { "Transport",     "depense",           "#D97706" },
-        { "Factures",      "depense",           "#7C3AED" },
-        { "Communication", "depense",           "#DB2777" },
-        { "Loisirs",       "depense",           "#65A30D" },
-        { "Santé",         "depense",           "#DC2626" },
-        { "Autre",         "depense",           "#5B6B6A" },
-        { "Salaire",       "approvisionnement", "#047857" },
-        { "Freelance",     "approvisionnement", "#0891B2" },
-        { "Cadeaux reçus", "approvisionnement", "#9333EA" }
-    };
-
-    if (!beginTransaction()) {
-        return false;
-    }
-
-    QSqlQuery insertion(m_db);
-    insertion.prepare("INSERT INTO categories (nom, type, couleur) VALUES (:nom, :type, :couleur);");
-    for (const CategorieParDefaut &c : categories) {
-        insertion.bindValue(":nom", QString::fromUtf8(c.nom));
-        insertion.bindValue(":type", QString::fromUtf8(c.type));
-        insertion.bindValue(":couleur", QString::fromUtf8(c.couleur));
-        if (!insertion.exec()) {
-            m_lastError = insertion.lastError().text();
-            rollbackTransaction();
-            return false;
-        }
-    }
-
-    return commitTransaction();
 }
 
 bool DatabaseManager::beginTransaction()

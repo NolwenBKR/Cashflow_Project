@@ -114,9 +114,8 @@ Category CategoryRepository::findById(int id, QString *errorMessage) const
     return Category(query.value(0).toInt(),
                     query.value(1).toString(),
                     query.value(2).toString(),
-                    query.value(3).toString())
+                    query.value(3).toString());
 }
-
 QList<Category> CategoryRepository::findAll(QString *errorMessage) const
 {
     QList<Category> categories;
@@ -135,7 +134,8 @@ QList<Category> CategoryRepository::findAll(QString *errorMessage) const
     while (query.next()) {
         categories.append(Category(query.value(0).toInt(),
                                    query.value(1).toString(),
-                                   query.value(2).toString()));
+                                   query.value(2).toString(),
+                                   query.value(3).toString()));
     }
 
     setError(errorMessage, QString());
